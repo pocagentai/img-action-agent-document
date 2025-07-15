@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+
+import sys
+from pyfiglet import Figlet
+ 
+
+if len(sys.argv) < 2:
+    print("Uso: banner 'Texto a mostrar'")
+    sys.exit(1)
+
+f = Figlet(font='standard')  # Puedes cambiar a 'standard', 'block', etc.
+print(f.renderText(sys.argv[1]))

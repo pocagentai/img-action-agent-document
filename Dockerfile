@@ -1,4 +1,6 @@
 FROM alpine:3.16
 
-RUN apk add curl
-
+RUN apk update && apk add curl py-pip python3
+RUN pip install --quiet pyfiglet
+COPY bin/aagent /usr/bin
+ 
