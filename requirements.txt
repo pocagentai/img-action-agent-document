@@ -1,0 +1,2 @@
+pyfiglet
+azure-storage-queue

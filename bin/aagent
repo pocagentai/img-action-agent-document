@@ -1,12 +1,31 @@
 #!/usr/bin/env python3
 
 import sys
+import os
 from pyfiglet import Figlet
- 
+from azure.storage.queue import QueueClient, BinaryBase64DecodePolicy, BinaryBase64EncodePolicy
 
-if len(sys.argv) < 2:
-    print("Uso: banner 'Texto a mostrar'")
+connection_string = os.getenv("CONNECTION_STRING")  
+if connection_string is None:
+    print("connection_string is not set.")
     sys.exit(1)
 
+queue_name = os.getenv("QUEUE_NAME") 
+if queue_name is None:
+    print("queue_name is not set.")
+    sys.exit(1)
+
+diff = os.getenv("DIFF") 
+if diff is None:
+    print("diff is not set.")
+    sys.exit(1)
+
+
+queue_client = QueueClient.from_connection_string(conn_str=connection_string, queue_name=queue_name,
+                                                  message_encode_policy = BinaryBase64EncodePolicy(),
+                                                  message_decode_policy = BinaryBase64DecodePolicy())
+
+queue_client.send_message(diff.encode('utf8'))
+
 f = Figlet(font='standard')  # Puedes cambiar a 'standard', 'block', etc.
-print(f.renderText(sys.argv[1]))
+print(f.renderText("Done !!!"))
