@@ -4,27 +4,38 @@ import sys
 import os
 from pyfiglet import Figlet
 from azure.storage.queue import QueueClient, BinaryBase64DecodePolicy, BinaryBase64EncodePolicy
+from dotenv import load_dotenv
 
-diff = os.getenv("INPUT_DIFF") 
-if diff is None or not diff:
-    print("diff is not set.")
+load_dotenv()
+
+diff = input("Ingresa el contenido del diff (puedes pegarlo):\n").strip()
+if not diff:
+    print("El diff no puede estar vacío.")
     sys.exit(1)
 
-connection_string = os.getenv("INPUT_CONNECTION_STRING")  
-if connection_string is None or not connection_string:
-    print("connection_string is not set.")
+connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+queue_name = os.getenv("AZURE_QUEUE_NAME")
+
+if not connection_string:
+    connection_string = input("Ingresa la cadena de conexión de la cuenta de almacenamiento:\n").strip()
+if not connection_string:
+    print("La cadena de conexión no puede estar vacía.")
     sys.exit(1)
 
-queue_name = os.getenv("INPUT_QUEUE_NAME") 
-if queue_name is None or not queue_name:
-    print("queue_name is not set.")
+if not queue_name:
+    queue_name = input("Ingresa el nombre de la cola:\n").strip()
+if not queue_name:
+    print("El nombre de la cola no puede estar vacío.")
     sys.exit(1)
 
-queue_client = QueueClient.from_connection_string(conn_str=connection_string, queue_name=queue_name,
-                                                  message_encode_policy = BinaryBase64EncodePolicy(),
-                                                  message_decode_policy = BinaryBase64DecodePolicy())
+queue_client = QueueClient.from_connection_string(
+    conn_str=connection_string,
+    queue_name=queue_name,
+    message_encode_policy=BinaryBase64EncodePolicy(),
+    message_decode_policy=BinaryBase64DecodePolicy()
+)
 
 queue_client.send_message(diff.encode('utf8'))
 
-f = Figlet(font='standard')  # Puedes cambiar a 'standard', 'block', etc.
+f = Figlet(font='standard')
 print(f.renderText("Done !!!"))

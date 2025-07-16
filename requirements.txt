@@ -1,2 +1,3 @@
 pyfiglet
 azure-storage-queue
+python-dotenv
