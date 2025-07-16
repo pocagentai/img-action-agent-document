@@ -6,17 +6,17 @@ from pyfiglet import Figlet
 from azure.storage.queue import QueueClient, BinaryBase64DecodePolicy, BinaryBase64EncodePolicy
 
 diff = os.getenv("INPUT_DIFF") 
-if diff is None:
+if diff is None or not diff:
     print("diff is not set.")
     sys.exit(1)
 
 connection_string = os.getenv("INPUT_CONNECTION_STRING")  
-if connection_string is None:
+if connection_string is None or not connection_string:
     print("connection_string is not set.")
     sys.exit(1)
 
 queue_name = os.getenv("INPUT_QUEUE_NAME") 
-if queue_name is None:
+if queue_name is None or not queue_name:
     print("queue_name is not set.")
     sys.exit(1)
 
