@@ -29,7 +29,7 @@ install:
 	@echo "Dependencias instaladas desde $(REQUIREMENTS)"
 
 run:
-	$(ACTIVATE) && sh entrypoint.sh 
+	$(ACTIVATE) && ./bin/aagent 
 
 freeze:
 	$(ACTIVATE) && pip freeze > $(REQUIREMENTS)
