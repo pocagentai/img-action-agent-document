@@ -9,7 +9,7 @@ COPY entrypoint.sh Makefile requirements.txt /workspace
 WORKDIR /workspace
 RUN make venv install
 RUN chmod a+x entrypoint.sh bin/aagent
-ENTRYPOINT ["sh", "entrypoint.sh"]
+ENTRYPOINT ["sh", "/workspace/entrypoint.sh"]
 
 
  
